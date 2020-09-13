@@ -15,6 +15,8 @@
     <string name="setting_kill_expression_summary">在技能动作详情中显示计算公式</string>
     <string name="setting_appearance">显示</string>
     <string name="setting_system">系统</string>
+    <string name="setting_server">服务器</string>
+    <string name="setting_server_dialog_title">服务器切换</string>
     <string name="setting_db_version">数据库版本</string>
     <string name="setting_app_version">应用版本</string>
     <string name="setting_re_download_db">强制重新下载数据库</string>
@@ -87,6 +89,7 @@
     <string name="text_attack_pattern">&#160;技能循环%d&#160;</string>
     <string name="text_normal_mode">通常模式</string>
     <string name="text_cast_time">待机时间：</string>
+    <string name="text_skill_level">技能等级：Lv.%s</string>
     <string name="text_skill_action">技能动作</string>
     <string name="text_profile">个人情报</string>
     <string name="text_age">&#160;年龄&#160;</string>

@@ -89,7 +89,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--作ろうかなーと思ってたけど途中でめんどくさくなってきたからやめたわー
+<!--        &lt;!&ndash;作ろうかなーと思ってたけど途中でめんどくさくなってきたからやめたわー-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/equipment_container"
@@ -219,7 +219,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        -->
+<!--        &ndash;&gt;-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

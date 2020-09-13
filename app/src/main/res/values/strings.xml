@@ -31,8 +31,8 @@
         <item>en</item>
     </string-array>
     <string-array name="setting_server_options">
-        <item>日本錆</item>
-        <item>中華錆</item>
+        <item>日服</item>
+        <item>中国服</item>
     </string-array>
     <string-array name="setting_server_values">
         <item>jp</item>
@@ -146,6 +146,7 @@
     <string name="text_attack_pattern">&#160;行動パターン%d&#160;</string>
     <string name="text_normal_mode">通常モード</string>
     <string name="text_cast_time">待機時間：</string>
+    <string name="text_skill_level">スキルレベル：Lv.%s</string>
     <string name="text_skill_action">スキルアクション</string>
     <string name="text_profile">プロフィール</string>
     <string name="text_age">&#160;年齢&#160;</string>

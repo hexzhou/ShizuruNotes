@@ -146,6 +146,9 @@ class Skill(
     val castTimeText: String
         get() = I18N.getString(R.string.text_cast_time) + skillCastTime + "s"
 
+    val skillLevel: String
+        get() = I18N.getString(R.string.text_skill_level, enemySkillLevel)
+
     lateinit var skillName: String
     lateinit var description: String
     lateinit var iconUrl: String
