@@ -103,17 +103,20 @@ class Chara: Cloneable {
     fun getSpecificCharaProperty(
         rarity: Int = maxRarity,
         rank: Int = maxCharaRank,
+        uniqueEquipmentLevel: Int = maxUniqueEquipmentLevel,
         hasUnique: Boolean = true
     ): Property {
         return Property().apply {
             plusEqual(rarityProperty[rarity])
+            // 用了等级
             plusEqual(getRarityGrowthProperty(rarity, rank))
+            // 故事好感
             plusEqual(storyProperty)
             plusEqual(promotionStatus[rank])
             plusEqual(getAllEquipmentProperty(rank))
             plusEqual(getPassiveSkillProperty(rarity))
             if (hasUnique) {
-                plusEqual(uniqueEquipmentProperty)
+                plusEqual(getUniqueEquipmentProperty(uniqueEquipmentLevel))
             }
         }
     }
@@ -128,6 +131,10 @@ class Chara: Cloneable {
             property.plusEqual(it.getCeiledProperty())
         }
         return property
+    }
+
+    fun getUniqueEquipmentProperty(level: Int): Property {
+        return uniqueEquipment?.getEnhancedProperty(level) ?: Property()
     }
 
     val uniqueEquipmentProperty: Property

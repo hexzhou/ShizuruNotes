@@ -20,6 +20,7 @@ class AnalyzeViewModel(
     var property4Analyze = MutableLiveData<Property>()
     var rarity = 1
     var rank = 1
+    var uniqueEquipmentLevel = 1
     var enemyLevel = 1
     var enemyAccuracy = 50
     var enemyDodge = 0
@@ -31,11 +32,17 @@ class AnalyzeViewModel(
             rarity = it.rarity
             rank = it.maxCharaRank
             enemyLevel = it.maxCharaLevel
+            uniqueEquipmentLevel = it.maxUniqueEquipmentLevel
             for (i in it.maxCharaRank downTo 2) {
                 rankList.add(i)
             }
         }
     }
+
+    val uniqueEquipmentLevelText: String
+        get() {
+            return I18N.getString(R.string.text_unique_equipment) + "Lv." + uniqueEquipmentLevel
+        }
 
     val enemyLevelText: String
         get() {
@@ -134,8 +141,8 @@ class AnalyzeViewModel(
         }
 
     // 触发Property变化
-    fun updateProperty(sRarity: Int = rarity, sRank: Int = rank) {
-        property4Analyze.value = Property().plusEqual(chara?.getSpecificCharaProperty(sRarity, sRank))
+    fun updateProperty(sRarity: Int = rarity, sRank: Int = rank, sUniqueEquipmentLevel: Int = uniqueEquipmentLevel) {
+        property4Analyze.value = Property().plusEqual(chara?.getSpecificCharaProperty(sRarity, sRank, sUniqueEquipmentLevel))
     }
 
     // Rank下拉框监听器
