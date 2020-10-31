@@ -157,9 +157,6 @@ class Skill(
     val friendlyMinionList = mutableListOf<Minion>()
     val enemyMinionList = mutableListOf<Enemy>()
 
-    /***
-    * ！！！此类必须在协程中进行实例化！！！
-    */
     init {
         DBHelper.get().getSkillData(this.skillId)?.setSkillData(this)
         actions.forEach { action ->
@@ -182,10 +179,8 @@ class Skill(
                 }
             }
         }
-
         actions.forEach { action ->
             action.buildParameter()
-
             //如果是召唤技能还需要再读库
             if (action.parameter is SummonAction){
                 //我方召唤物
@@ -201,9 +196,9 @@ class Skill(
                         DBHelper.get().getUnitAttackPattern(unitId)?.forEach {
                             minion?.attackPattern?.add(it.attackPattern)
                         }
-                        if (minion != null)
+                        if (minion != null) {
                             friendlyMinionList.add(minion)
-                        unitId
+                        }
                     }
                 }
                 //敌方召唤物
@@ -217,16 +212,10 @@ class Skill(
                             }
                         }
                         if (!isDuplicate) {
-                            val enemyMinion = DBHelper.get().getEnemyMinion(enemyId)?.enemy?.let { minion ->
-                                DBHelper.get().getUnitAttackPattern(minion.unitId)?.forEach {
-                                    minion.attackPatternList.add(it.attackPattern)
-                                }
-                                minion
+                            DBHelper.get().getEnemyMinion(enemyId)?.let {
+                                enemyMinionList.add(it.enemy)
                             }
-                            if (enemyMinion != null)
-                                enemyMinionList.add(enemyMinion)
                         }
-                        enemyId
                     }
                 }
             }

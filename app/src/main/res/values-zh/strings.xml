@@ -261,7 +261,7 @@
     <string name="inevitable_physical">必中的物理</string>
     <string name="Deal_s1_s2_damage_to_s3">对%3$s造成 [%1$s] %2$s伤害。</string>
     <string name="Deal_s1_s2_damage_to_s3_and_this_attack_is_ensured_critical">对%3$s造成 [%1$s] %2$s伤害，且此动作必定暴击。</string>
-    <string name="Critical_damage_is_s_times_as_normal_damage">触发暴击的场合，爆伤将变为 [%s] 倍。</string>
+    <string name="Critical_damage_is_s_times_as_normal_damage">触发暴击的场合，爆伤倍率将变为 [%s] 倍。</string>
     <string name="Change_self_position_to_s_then_return">移动至%s的位置，技能施放完成后回到原来的位置。</string>
     <string name="Change_self_position_s_forward_then_return">向前移动 [%s]，技能施放完成后回到原来的位置。</string>
     <string name="Change_self_position_s_backward_then_return">向后移动 [%s]，技能施放完成后回到原来的位置。</string>
@@ -307,7 +307,7 @@
     <string name="Knock_Back">击退</string>
     <string name="Action">动作</string>
     <string name="Dot">持续伤害</string>
-    <string name="Blind">失明</string>
+    <string name="Blind">物理致盲</string>
     <string name="Silence">沉默</string>
     <string name="Instant_Death">即死</string>
     <string name="Unknown_Effect">不明的效果</string>
@@ -316,7 +316,7 @@
     <string name="Fear">恐慌</string>
     <string name="Seal">刻印赋予</string>
     <string name="Awe">畏怖</string>
-    <string name="Polymorph">驯鹿化</string>
+    <string name="Polymorph">变身</string>
     <string name="Changing_Max_HP">HP变化</string>
     <string name="Raise_s1_d2_attack_speed_for_s3_sec">提高%1$s [%2$d%%] 的行动速度，持续时间 [%3$s] 秒。</string>
     <string name="Reduce_s1_d2_attack_speed_for_s3_sec">降低%1$s [%2$d%%] 的行动速度，持续时间 [%3$s] 秒。</string>
@@ -327,7 +327,7 @@
     <string name="Poison_s1_violently_and_deal_s2_damage_per_second_for_s3_sec">使%1$s进入猛毒状态，每秒造成 [%2$s] 伤害，持续时间 [%3$s] 秒。</string>
     <string name="s1_s2_and_deal_s3_damage_per_second_for_s4_sec">使%2$s%1$s，每秒造成 [%3$s] 伤害，持续时间 [%4$s] 秒。</string>
     <string name="Silence_s1_with_s2_chance_for_s3_sec">以 [%2$s%%] 的概率使%1$s进入沉默状态，持续时间 [%3$s] 秒。</string>
-    <string name="Blind_s1_with_s2_chance_for_s3_sec_physical_attack_has_d4_chance_to_miss">以 [%2$s%%] 的概率使%1$s进入失明状态，持续时间 [%3$s] 秒。对象进行物理攻击时有 [%4$s%%] 的概率miss。</string>
+    <string name="Blind_s1_with_s2_chance_for_s3_sec_physical_attack_has_d4_chance_to_miss">以 [%2$s%%] 的概率使%1$s进入物理致盲状态，持续时间 [%3$s] 秒。对象进行物理攻击时有 [%4$s%%] 的概率miss。</string>
     <string name="Move_Speed">移动速度</string>
     <string name="Physical_Critical_Damage">物理爆伤</string>
     <string name="Magical_Critical_Damage">魔法爆伤</string>
@@ -373,7 +373,7 @@
     <string name="Random_event_d1_chance_use_d2_otherwise_d3">随机事件：[%1$d%%] 的概率使用[动作%2$d]，否则使用[动作%3$d]。</string>
     <string name="Random_event_d1_chance_use_d2">随机事件：[%1$d%%] 的概率使用[动作%2$d]。</string>
     <string name="controlled">无法行动状态中</string>
-    <string name="blinded">失明状态中</string>
+    <string name="blinded">物理致盲状态中</string>
     <string name="charmed_or_confused">魅惑或混乱状态中</string>
     <string name="decoying">挑衅状态中</string>
     <string name="burned">火伤状态中</string>
@@ -458,7 +458,7 @@
     <string name="Repeat_effect_d1_every_s2_sec_up_to_s3_sec_break_if_taken_more_than_s4_damage">每%2$s秒使用1次[动作%1$d]，最长持续 [%3$s] 秒。受到的伤害量超过 [%4$s] 时中断此效果。</string>
     <string name="use_d_after_time_up">持续时间结束后，使用[动作%d]。</string>
     <string name="use_d_after_break">效果被中断后，使用[动作%d]。</string>
-    <string name="Polymorph_s1_for_s2_sec">使%1$s变貌%2$s秒。</string>
+    <string name="Polymorph_s1_for_s2_sec">使%1$s变身 [%2$s] 秒。</string>
     <string name="Clear_all_s1_on_s2_with_chance_s3">[%3$s%%] 的概率使%2$s的%1$s全部解除。</string>
     <string name="buffs">增益状态</string>
     <string name="debuffs">减益状态</string>
@@ -609,5 +609,15 @@
     <string name="Use_s_if_this_skill_get_critical">本技能触发暴击的场合，使用[动作%s]。</string>
     <string name="Use_s_if_this_skill_not_get_critical">本技能未暴击的场合，使用[动作%s]。</string>
     <string name="Change_attack_pattern_to_d">切换至技能循环%d。</string>
-    <string name="This_effect_will_be_released_when_taking_damaged">本效果将会在收到伤害时解除。</string>
+    <string name="This_effect_will_be_released_when_taking_damaged">本效果将会在受到伤害时解除。</string>
+    <string name="s_highest_HP">>HP最高的%s</string>
+    <string name="s_lowest_HP">HP最低的%s</string>
+    <string name="the_s_highest_HP">HP%s高的</string>
+    <string name="the_s_lowest_HP">HP%s低的</string>
+    <string name="the_highest_HP">HP最高的</string>
+    <string name="the_lowest_HP">HP最低的</string>
+    <string name="polymorphed">变身状态中</string>
+    <string name="max_HP">最大HP</string>
+    <string name="Deal_damage_equal_to_s1_of_targets_original_max_HP_to_s2">对%2$s造成原本的最大HP [%1$s%%] 伤害。</string>
+    <string name="Multiple_attack_speed_of_s1_with_s2_for_s3_sec">使%1$s的行动速度变为原本的 [%2$s%%]，持续时间 [%3$s] 秒。</string>
 </resources>
