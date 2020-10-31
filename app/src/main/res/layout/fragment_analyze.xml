@@ -123,6 +123,34 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <TextView
+                        android:id="@+id/text_unique_equipment_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@{viewModel.uniqueEquipmentLevelText, default=uniqueEquipmentLevel}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/status_control_panel" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/unique_equipment_enhance_level_slider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:tooltipText="@string/text_unique_equipment"
+                        android:valueFrom="0"
+                        android:valueTo="100"
+                        android:value="@{viewModel.uniqueEquipmentLevel}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_unique_equipment_level"
+                        android:stepSize="1" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView

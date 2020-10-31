@@ -26,23 +26,17 @@ class Equipment(
     var craftMap: Map<Item, Int>? = null
 
     fun getCeiledProperty(): Property {
-        return if (equipmentId in uniqueEquipmentIdRange) {
-            maxEnhanceLevel - 1
-        } else {
-            maxEnhanceLevel
-        }.let {
-            equipmentProperty.plus(equipmentEnhanceRate.multiply(it.toDouble())).ceiled
-        }
+        return getEnhancedProperty(maxEnhanceLevel)
     }
 
     fun getEnhancedProperty(level: Int): Property {
-        return if (equipmentId in uniqueEquipmentIdRange) {
+        // 如果是专属装备，需要减去初始等级1
+        val enhanceLevel = if (this.equipmentId in 130000..139999) {
             level - 1
         } else {
             level
-        }.let {
-            equipmentProperty.plus(equipmentEnhanceRate.multiply(it.toDouble())).ceiled
         }
+        return equipmentProperty.plus(equipmentEnhanceRate.multiply(enhanceLevel.toDouble())).ceiled
     }
 
     fun getLeafCraftMap(): Map<Item, Int> {

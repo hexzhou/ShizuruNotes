@@ -92,6 +92,13 @@ class AnalyzeFragment : Fragment() {
                 }
             }
 
+            // 专武等级调整
+            uniqueEquipmentEnhanceLevelSlider.valueTo = sharedChara.maxUniqueEquipmentLevel.toFloat()
+            uniqueEquipmentEnhanceLevelSlider.addOnChangeListener{_, value, _ ->
+                analyzeVM.uniqueEquipmentLevel = value.toInt()
+                analyzeVM.updateProperty()
+            }
+
             // 如果没有6星则隐藏
             if (analyzeVM.chara?.maxRarity == 5) {
                 charaStar6.visibility = View.GONE
