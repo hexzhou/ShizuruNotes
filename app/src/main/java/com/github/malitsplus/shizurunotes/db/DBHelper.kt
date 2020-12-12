@@ -765,8 +765,8 @@ class DBHelper private constructor(
         if (UserSettings.get().getUserServer() == "cn") {
             return getBeanListByRaw(
                 """
-                SELECT 
-                a.lap_num_from 'phase'
+                SELECT
+                DENSE_RANK() OVER (ORDER BY a.lap_num_from DESC) AS 'phase'
                 ,b1.wave_group_id 'wave_group_id_1'
                 ,b2.wave_group_id 'wave_group_id_2'
                 ,b3.wave_group_id 'wave_group_id_3'
