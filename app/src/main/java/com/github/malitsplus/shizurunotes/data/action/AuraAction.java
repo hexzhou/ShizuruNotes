@@ -26,6 +26,7 @@ public class AuraAction extends ActionParameter {
         physicalCriticalDamage(11),
         magicalCriticalDamage(12),
         accuracy(13),
+        receivedCriticalDamage(14),
         maxHP(100);
 
         private int value;
@@ -59,6 +60,7 @@ public class AuraAction extends ActionParameter {
                 case physicalCriticalDamage: return I18N.getString(R.string.Physical_Critical_Damage);
                 case magicalCriticalDamage: return I18N.getString(R.string.Magical_Critical_Damage);
                 case accuracy: return PropertyKey.accuracy.description();
+                case receivedCriticalDamage: return I18N.getString(R.string.Received_Critical_Damage);
                 case maxHP: return I18N.getString(R.string.max_HP);
                 default: return "";
             }
@@ -82,6 +84,14 @@ public class AuraAction extends ActionParameter {
                 case reduce: return I18N.getString(R.string.Reduce);
                 default: return "";
             }
+        }
+
+        public AuraActionType toggle() {
+            switch (this) {
+                case raise: return reduce;
+                case reduce: return raise;
+            }
+            return raise;
         }
     }
 
@@ -115,7 +125,7 @@ public class AuraAction extends ActionParameter {
 
     @Override
     protected void childInit() {
-        percentModifier = PercentModifier.parse((int) actionValue1);
+        percentModifier = PercentModifier.parse((int) actionValue1.value);
         actionValues.add(new ActionValue(actionValue2, actionValue3, null));
         durationValues.add(new ActionValue(actionValue4, actionValue5, null));
         auraActionType = AuraActionType.parse(actionDetail1);
@@ -125,6 +135,10 @@ public class AuraAction extends ActionParameter {
             auraType = AuraType.parse(actionDetail1 / 10);
         }
         breakType = BreakType.parse(actionDetail2);
+        if (auraType == AuraType.receivedCriticalDamage) {
+            auraActionType = auraActionType.toggle();
+            percentModifier = PercentModifier.percent;
+        }
     }
 
     @Override

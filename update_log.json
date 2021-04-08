@@ -1,9 +1,9 @@
 {
-	"versionCode": "27",
-	"versionName": "1.0.11",
+	"versionCode": "38",
+	"versionName": "1.4.3",
 	"recommend": "false",
-	"messageJa": "・クリティカルに関する説明文を訂正",
-	"messageZh": "・订正暴击相关的效果说明",
+	"messageJa": "・チエル（聖学祭）、名もなき芸術のスキル説明テキストを訂正",
+	"messageZh": "・订正チエル（聖学祭）、名もなき芸術的技能描述",
 	"infoJa": "",
 	"infoZh": ""
 }

@@ -3,13 +3,10 @@ package com.github.malitsplus.shizurunotes.ui.shared
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.malitsplus.shizurunotes.common.Statics
-import com.github.malitsplus.shizurunotes.data.Chara
-import com.github.malitsplus.shizurunotes.data.Equipment
-import com.github.malitsplus.shizurunotes.data.Minion
-import com.github.malitsplus.shizurunotes.data.Property
+import com.github.malitsplus.shizurunotes.data.*
 import com.github.malitsplus.shizurunotes.db.DBHelper.Companion.get
 import com.github.malitsplus.shizurunotes.db.MasterUniqueEquipment
-import java.util.*
+import com.github.malitsplus.shizurunotes.utils.LogUtils
 import kotlin.concurrent.thread
 
 class SharedViewModelChara : ViewModel() {
@@ -34,25 +31,33 @@ class SharedViewModelChara : ViewModel() {
      * 此方法应该且仅应该在程序初始化时或数据库更新完成后使用。
      */
     fun loadData(equipmentMap: Map<Int, Equipment>) {
+        var succeeded: Boolean
         if (charaList.value.isNullOrEmpty()) {
             loadingFlag.postValue(true)
             thread(start = true) {
                 val innerCharaList = mutableListOf<Chara>()
-                loadBasic(innerCharaList)
-                innerCharaList.forEach {
-                    setCharaMaxData(it)
-                    setCharaRarity(it)
-                    setCharaStoryStatus(it)
-                    setCharaPromotionStatus(it)
-                    setCharaEquipments(it, equipmentMap)
-                    setUniqueEquipment(it)
-                    setUnitSkillData(it)
-                    setUnitAttackPattern(it)
-                    it.setCharaProperty()
+                try {
+                    loadBasic(innerCharaList)
+                    innerCharaList.forEach {
+                        setCharaMaxData(it)
+                        setCharaRarity(it)
+                        setCharaStoryStatus(it)
+                        setCharaPromotionStatus(it)
+                        setCharaEquipments(it, equipmentMap)
+                        setUniqueEquipment(it)
+                        setUnitSkillData(it)
+                        setUnitAttackPattern(it)
+                        it.setCharaProperty()
+                    }
+                    succeeded = true
+                } catch (ex: Exception) {
+                    succeeded = false
+                    innerCharaList.clear()
+                    LogUtils.file(LogUtils.E, "loadCharaData", ex.message)
                 }
                 charaList.postValue(innerCharaList)
                 loadingFlag.postValue(false)
-                callBack?.charaLoadFinished()
+                callBack?.charaLoadFinished(succeeded)
             }
         }
     }
@@ -90,10 +95,8 @@ class SharedViewModelChara : ViewModel() {
     }
 
     private fun setCharaStoryStatus(chara: Chara) {
-        chara.storyProperty = Property().apply {
-            get().getCharaStoryStatus(chara.charaId)?.forEach {
-                this.plusEqual(it.getCharaStoryStatus(chara))
-            }
+        get().getCharaStoryStatus(chara.charaId)?.forEach {
+            chara.storyStatusList.add(it.getCharaStoryStatus(chara))
         }
     }
 
@@ -148,7 +151,8 @@ class SharedViewModelChara : ViewModel() {
     }
 
     var callBack: MasterCharaCallBack? = null
+
     interface MasterCharaCallBack {
-        fun charaLoadFinished()
+        fun charaLoadFinished(succeeded: Boolean)
     }
 }

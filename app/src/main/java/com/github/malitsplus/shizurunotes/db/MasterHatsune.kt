@@ -14,7 +14,6 @@ import java.util.*
 class MasterHatsune {
     fun getHatsune(): MutableList<HatsuneStage> {
         val hatsuneStageList = mutableListOf<HatsuneStage>()
-
         DBHelper.get().getHatsuneSchedule(null)?.forEach { schedule ->
             val hatsuneStage = HatsuneStage(
                 schedule.event_id,

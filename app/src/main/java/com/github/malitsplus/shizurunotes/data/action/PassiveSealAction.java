@@ -17,7 +17,7 @@ class PassiveSealAction extends ActionParameter {
 
     @Override
     protected void childInit() {
-        sealNumLimit = (int)actionValue1;
+        sealNumLimit = (int)actionValue1.value;
         sealDuration.add(new ActionValue(actionValue3, actionValue4, null));
         lifeTime.add(new ActionValue(actionValue5, actionValue6, null));
         passiveTiming = ePassiveTiming.parse(actionDetail1);
@@ -31,16 +31,17 @@ class PassiveSealAction extends ActionParameter {
                     passiveTiming.description(),
                     sealTarget.description(),
                     actionDetail2,
-                    (int)actionValue2,
+                    (int)actionValue2.value,
                     buildExpression(level, sealDuration, RoundingMode.UNNECESSARY, property),
-                    (int)actionValue1,
+                    (int)actionValue1.value,
                     buildExpression(level, lifeTime, RoundingMode.UNNECESSARY, property)
             );
         }
 
     protected enum ePassiveTiming {
         Unknown(-1),
-        Buff(1);
+        Buff(1),
+        Damage(2);
 
         private int value;
         ePassiveTiming(int value){
@@ -62,6 +63,8 @@ class PassiveSealAction extends ActionParameter {
             switch (this) {
                 case Buff:
                     return I18N.getString(R.string.buffs);
+                case Damage:
+                    return I18N.getString(R.string.damage);
                 default:
                     return I18N.getString(R.string.Unknown);
             }

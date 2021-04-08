@@ -17,12 +17,31 @@
             app:entryValues="@array/setting_language_values"
             app:dialogTitle="@string/setting_language_dialog_title" />
 
+        <ListPreference
+            app:key="expressionStyle2"
+            app:title="@string/setting_kill_expression_title"
+            app:defaultValue="0"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/mic_symbols"
+            app:entries="@array/setting_kill_expression_options"
+            app:entryValues="@array/setting_kill_expression_values"
+            app:dialogTitle="@string/setting_kill_expression_title" />
+
+        <SwitchPreferenceCompat
+            app:key="limitClanBattleNum"
+            app:defaultValue="false"
+            app:icon="@drawable/mic_limit"
+            app:summary="@string/setting_limit_clan_battle_num_description"
+            app:title="@string/setting_limit_clan_battle_num" />
+
+        <!--
         <SwitchPreferenceCompat
             app:key="expressionStyle"
             app:defaultValue="false"
             app:icon="@drawable/mic_symbols"
             app:summary="@string/setting_kill_expression_summary"
             app:title="@string/setting_kill_expression_title" />
+        -->
 
     </PreferenceCategory>
 
@@ -38,7 +57,7 @@
             app:entries="@array/setting_server_options"
             app:entryValues="@array/setting_server_values"
             app:dialogTitle="@string/setting_server_dialog_title"
-            app:defaultValue="cn"/>
+            app:defaultValue="jp"/>
 
         <Preference
             app:key="log"
@@ -71,6 +90,15 @@
             app:title="@string/setting_about" >
         </Preference>
 
+        <SwitchPreference
+            app:isPreferenceVisible="false"
+            app:key="isBadgeVisible"
+            app:defaultValue="true" />
+
+        <SwitchPreference
+            app:isPreferenceVisible="false"
+            app:key="hideServerSwitchHint"
+            app:defaultValue="false" />
 
     </PreferenceCategory>
 

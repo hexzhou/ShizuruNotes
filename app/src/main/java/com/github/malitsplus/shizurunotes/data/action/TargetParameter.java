@@ -35,7 +35,11 @@ public class TargetParameter {
     private boolean hasDirectionPhrase;
     private boolean hasTargetType;
     private boolean hasDependAction(){
-        return dependAction != null && (dependAction.getActionId() != 0 && targetType != TargetType.absolute);
+        return dependAction != null && (
+                dependAction.getActionId() != 0
+                && targetType != TargetType.absolute
+                && dependAction.parameter.actionType != ActionType.chooseArea
+        );
     }
 
     private void setBooleans(){
@@ -302,7 +306,9 @@ enum TargetType{
     nearWithoutSelf(34),
     hpDescendingOrNearForward(35),
     hpAscendingOrNearForward(36),
-    tpDescendingOrMaxForward(37);
+    tpDescendingOrMaxForward(37),
+    bothAtkDescending(38),
+    bothAtkAscending(39);
 
     private int value;
     TargetType(int value){
@@ -381,9 +387,9 @@ enum TargetType{
             case self:
                 return I18N.getString(R.string.self);
             case forward:
-                return I18N.getString(R.string.the_most_forward);
-            case backward:
                 return I18N.getString(R.string.the_most_backward);
+            case backward:
+                return I18N.getString(R.string.the_most_forward);
             case absolute:
                 return I18N.getString(R.string.targets_within_the_scope);
             case tpDescending:
@@ -422,6 +428,10 @@ enum TargetType{
                 return I18N.getString(R.string.shadow);
             case nearWithoutSelf:
                 return I18N.getString(R.string.nearest_without_self);
+            case bothAtkDescending:
+                return I18N.getString(R.string.the_highest_ATK_or_Magic_STR);
+            case bothAtkAscending:
+                return I18N.getString(R.string.the_lowest_ATK_or_Magic_STR);
             default:
                 return "";
         }
@@ -447,9 +457,9 @@ enum TargetType{
             case hpDescendingOrNearForward:
                 return I18N.getString(R.string.s_highest_HP, localizedModifier);
             case forward:
-                return I18N.getString(R.string.s_most_forward, localizedModifier);
-            case backward:
                 return I18N.getString(R.string.s_most_backward, localizedModifier);
+            case backward:
+                return I18N.getString(R.string.s_most_forward, localizedModifier);
             case tpDescending:
             case tpDescendingOrNear:
             case tpDescendingOrMaxForward:
@@ -485,6 +495,10 @@ enum TargetType{
                 return I18N.getString(R.string.s_shadow, localizedModifier);
             case nearWithoutSelf:
                 return I18N.getString(R.string.s_nearest_without_self, localizedModifier);
+            case bothAtkDescending:
+                return I18N.getString(R.string.s_the_highest_ATK_or_Magic_STR, localizedModifier);
+            case bothAtkAscending:
+                return I18N.getString(R.string.s_the_lowest_ATK_or_Magic_STR, localizedModifier);
             default:
                 return description();
         }
@@ -518,9 +532,9 @@ enum TargetType{
                 case hpDescendingOrNearForward:
                     return I18N.getString(R.string.the_s_highest_HP, localizedModifier);
                 case forward:
-                    return I18N.getString(R.string.the_s_most_forward, localizedModifier);
-                case backward:
                     return I18N.getString(R.string.the_s_most_backward, localizedModifier);
+                case backward:
+                    return I18N.getString(R.string.the_s_most_forward, localizedModifier);
                 case tpDescending:
                 case tpDescendingOrNear:
                     return I18N.getString(R.string.the_s_highest_TP, localizedModifier);
@@ -542,6 +556,10 @@ enum TargetType{
                     return I18N.getString(R.string.the_s_lowest_Magic_STR, localizedModifier);
                 case nearWithoutSelf:
                     return I18N.getString(R.string.the_s_nearest_without_self);
+                case bothAtkDescending:
+                    return I18N.getString(R.string.the_s_highest_ATK_or_Magic_STR, localizedModifier);
+                case bothAtkAscending:
+                    return I18N.getString(R.string.the_s_lowest_ATK_or_Magic_STR, localizedModifier);
                 default:
                     return description();
             }

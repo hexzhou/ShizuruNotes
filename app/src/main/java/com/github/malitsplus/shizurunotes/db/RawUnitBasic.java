@@ -64,7 +64,7 @@ public class RawUnitBasic {
 
         chara.setComment(comment);
         chara.kana = kana;
-        chara.setSelfText(self_text != null ? self_text.replaceAll("\\\\n", "\n") : "");
+        chara.setSelfText(self_text == null ? "" : self_text.replaceAll("\\\\n", "\n"));
 
         //需要处理的字串
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd H:mm:ss");
@@ -75,6 +75,10 @@ public class RawUnitBasic {
         // The correct age of Kasumi should be 15
         if (unit_name.startsWith("カスミ") && voice.equals("水瀬いのり")) {
             chara.age = "15";
+        }
+        // The correct age of Monika should be 17
+        if (unit_name.startsWith("モニカ") && voice.equals("辻あゆみ")) {
+            chara.age = "17";
         }
         // 109301: ルゥ
         if (unit_id == 109301) {

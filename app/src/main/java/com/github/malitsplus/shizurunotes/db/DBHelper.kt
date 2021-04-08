@@ -384,9 +384,10 @@ class DBHelper private constructor(
                 ,up.self_text
                 ,IFNULL(au.unit_name, ud.unit_name) 'actual_name' 
                 FROM unit_data AS ud 
-                LEFT JOIN unit_profile AS up ON ud.unit_id = up.unit_id 
+                JOIN unit_profile AS up ON ud.unit_id = up.unit_id 
                 LEFT JOIN actual_unit_background AS au ON substr(ud.unit_id,1,4) = substr(au.unit_id,1,4) 
                 WHERE ud.comment <> '' 
+                AND ud.unit_id < 400000 
                 """,
             RawUnitBasic::class.java
         )
@@ -427,7 +428,7 @@ class DBHelper private constructor(
      */
     fun getCharaStoryStatus(charaId: Int): List<RawCharaStoryStatus>? {
         // 国服-> 排除还没有实装的角色剧情
-        if (UserSettings.get().getUserServer() == "cn") {
+        if (UserSettings.get().getUserServer() == UserSettings.SERVER_CN) {
             return getBeanListByRaw(
                 """
                 SELECT a.* 
@@ -733,12 +734,13 @@ class DBHelper private constructor(
      * @return
      */
     fun getClanBattlePeriod(): List<RawClanBattlePeriod>? {
-        // 国服-> 读取所有记录
-        if (UserSettings.get().getUserServer() == "cn") {
+        // 国服-> 读取1014前记录
+        if (UserSettings.get().getUserServer() == UserSettings.SERVER_CN) {
             return getBeanListByRaw(
                 """
                 SELECT * 
                 FROM clan_battle_period 
+                WHERE clan_battle_id <= 1014 
                 ORDER BY clan_battle_id DESC 
                 """,
                 RawClanBattlePeriod::class.java
@@ -750,6 +752,7 @@ class DBHelper private constructor(
                 FROM clan_battle_period 
                 WHERE clan_battle_id > 1014 
                 ORDER BY clan_battle_id DESC 
+                ${if (UserSettings.get().getClanBattleLimit()) "LIMIT 13 " else ""}
                 """,
                 RawClanBattlePeriod::class.java
         )
@@ -762,11 +765,19 @@ class DBHelper private constructor(
      */
     fun getClanBattlePhase(clanBattleId: Int): List<RawClanBattlePhase>? {
         // 国服-> 迎合日服结构
-        if (UserSettings.get().getUserServer() == "cn") {
+        if (UserSettings.get().getUserServer() == UserSettings.SERVER_CN) {
             return getBeanListByRaw(
                 """
-                SELECT 
-                (a.clan_battle_boss_group_id - a.clan_battle_id*1000) 'phase'
+                SELECT a.clan_battle_id,
+                CASE 
+                WHEN a.lap_num_from = 1 THEN 1
+                WHEN a.lap_num_from = 2 AND a.clan_battle_id <= 1009 THEN 2
+                WHEN a.lap_num_from = 2 THEN 1
+                WHEN a.lap_num_from = 4 THEN 2
+                WHEN a.lap_num_from = 6 THEN 3
+                WHEN a.lap_num_from = 11 THEN 3
+                WHEN a.lap_num_from = 35 THEN 4
+                ELSE 1 END 'phase'
                 ,b1.wave_group_id 'wave_group_id_1'
                 ,b2.wave_group_id 'wave_group_id_2'
                 ,b3.wave_group_id 'wave_group_id_3'
@@ -778,8 +789,10 @@ class DBHelper private constructor(
                 JOIN clan_battle_boss_group AS b3 ON a.clan_battle_boss_group_id = b3.clan_battle_boss_group_id AND b3.order_num = 3
                 JOIN clan_battle_boss_group AS b4 ON a.clan_battle_boss_group_id = b4.clan_battle_boss_group_id AND b4.order_num = 4
                 JOIN clan_battle_boss_group AS b5 ON a.clan_battle_boss_group_id = b5.clan_battle_boss_group_id AND b5.order_num = 5
-                WHERE a.clan_battle_id=$clanBattleId 
-                ORDER BY a.clan_battle_boss_group_id  DESC 
+                WHERE 1=1
+                AND a.clan_battle_id = $clanBattleId 
+                AND (a.lap_num_from <> a.lap_num_to OR a.rsl_unlock_lap = 1)
+                ORDER BY a.clan_battle_id,a.lap_num_from DESC 
                 """,
                 RawClanBattlePhase::class.java
             )
@@ -841,7 +854,7 @@ class DBHelper private constructor(
      */
     fun getEnemy(enemyIdList: List<Int>): List<RawEnemy>? {
         // 国服->去掉 [enemy_m_parts] 表
-        if (UserSettings.get().getUserServer() == "cn") {
+        if (UserSettings.get().getUserServer() == UserSettings.SERVER_CN) {
             return getBeanListByRaw(
                 """
                     SELECT 

@@ -26,7 +26,6 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
-import kotlin.math.E
 
 class UpdateManager private constructor(
     private val mContext: Context)
@@ -62,6 +61,7 @@ class UpdateManager private constructor(
     private val versionInfo: String? = null
     private var progressDialog: MaterialDialog? = null
     private var maxLength = 0
+    private val userAgent = "ShizuruNotes ${BuildConfig.VERSION_NAME} ${System.getProperty("http.agent")}"
 
     init {
         callBack = object: UpdateCallBack {
@@ -156,10 +156,21 @@ class UpdateManager private constructor(
              */
             override fun dbUpdateCompleted() {
                 LogUtils.file(LogUtils.I, "DB update finished.")
-                UserSettings.get().setDbVersion(serverVersion)
+                val newFileHash = FileUtils.getFileMD5ToString(FileUtils.getDbFilePath())
+                if (UserSettings.get().getDBHash() == newFileHash) {
+                    LogUtils.file(LogUtils.W, "duplicate DB file.")
+                    UserSettings.get().setDBHash(newFileHash)
+                    UserSettings.get().setDbVersion(serverVersion)
+                    iActivityCallBack?.showSnackBar(R.string.db_update_finished_text)
+                    iActivityCallBack?.dbUpdateFinished()
+//                    iActivityCallBack?.showSnackBar(R.string.db_update_duplicate)
+                } else {
+                    UserSettings.get().setDBHash(newFileHash)
+                    UserSettings.get().setDbVersion(serverVersion)
+                    iActivityCallBack?.showSnackBar(R.string.db_update_finished_text)
+                    iActivityCallBack?.dbUpdateFinished()
+                }
                 progressDialog?.cancel()
-                iActivityCallBack?.showSnackBar(R.string.db_update_finished_text)
-                iActivityCallBack?.dbUpdateFinished()
             }
 
             /***
@@ -186,6 +197,7 @@ class UpdateManager private constructor(
         val client = OkHttpClient()
         val request = Request.Builder()
             .url(Statics.APP_UPDATE_LOG)
+            .header("User-Agent", userAgent)
             .build()
         val call = client.newCall(request)
         call.enqueue(object : Callback {
@@ -220,8 +232,10 @@ class UpdateManager private constructor(
 
     fun checkDatabaseVersion() {
         val client = OkHttpClient()
+
         val request = Request.Builder()
             .url(Statics.LATEST_VERSION_URL)
+            .header("User-Agent", userAgent)
             .build()
         val call = client.newCall(request)
         call.enqueue(object : Callback {
@@ -238,8 +252,8 @@ class UpdateManager private constructor(
                         throw Exception("No response from server.")
                     val obj = JSONObject(lastVersionJson)
                     serverVersion = obj.getLong("TruthVersion")
-//                    hasNewVersion = true
                     hasNewVersion = serverVersion != UserSettings.get().getDbVersion()
+//                    hasNewVersion = true
                     updateHandler.sendEmptyMessage(UPDATE_CHECK_COMPLETED)
                 } catch (e: Exception) {
                     LogUtils.file(LogUtils.E, "checkDatabaseVersion", e.message)
